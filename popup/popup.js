@@ -33,7 +33,7 @@ function updateUI(items) {
       <div class="empty-state">
         <p>읽기 목록이 비어있습니다.</p>
         <p class="help-text">크롬 브라우저의 '읽기 목록' 기능을 사용하여 항목을 추가해주세요.</p>
-        <p class="help-text">브라우저 주소창 오른쪽의 ⭐️ 버튼을 클릭하고 '읽기 목록에 추가'를 선택하면 됩니다.</p>
+        <p class="help-text">브라우저 주소창 오른쪽의 ⭐����� 버튼을 클릭하고 '읽기 목록에 추가'를 선택하면 됩니다.</p>
       </div>`;
     return;
   }
@@ -86,6 +86,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       URL.revokeObjectURL(url);
     });
+
+    // 전체 삭제 버튼
+    document
+      .getElementById("clear-all-btn")
+      .addEventListener("click", async () => {
+        if (
+          confirm(
+            "정말로 모든 읽기 목록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다."
+          )
+        ) {
+          try {
+            // 모든 항목을 순회하며 삭제
+            for (const item of readingList) {
+              await chrome.readingList.removeEntry({
+                url: item.url,
+              });
+            }
+
+            // UI 업데이트
+            readingList = [];
+            updateUI(readingList);
+            alert("모든 항목이 삭제되었습니다.");
+          } catch (error) {
+            console.error("전체 삭제 실패:", error);
+            alert("삭제 중 오류가 발생했습니다.");
+          }
+        }
+      });
 
     // 새로고침 버튼
     document

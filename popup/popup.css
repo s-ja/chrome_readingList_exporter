@@ -23,9 +23,10 @@
 }
 
 .controls {
-  margin-top: 16px;
   display: flex;
   gap: 8px;
+  margin-top: 16px;
+  justify-content: flex-end;
 }
 
 button {
@@ -39,4 +40,13 @@ button {
 
 button:hover {
   background-color: #3367d6;
+}
+
+.danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.danger:hover {
+  background-color: #c82333;
 }
